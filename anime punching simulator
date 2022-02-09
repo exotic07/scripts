@@ -104,7 +104,9 @@ end)
   end)
   
   Ribirth:NewButton("RemoveErrorGui", "removes the error gui", function()
+      while true do wait()
 firesignal(game:GetService("Players").LocalPlayer.PlayerGui.Ui.CenterFrame.Error.Ok.Button.MouseButton1Click)
+end
 end)
   
   
