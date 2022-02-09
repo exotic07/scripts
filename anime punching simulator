@@ -48,7 +48,21 @@ spawn(function()
 
 spawn(function()
     while true do wait()
-        if autoegg then
+        if autoegg and do3 then
+             me.Character.HumanoidRootPart.CFrame = game:GetService("Workspace")["__SETTINGS"]["__EGG"][selectedegg].EGG.CFrame + Vector3.new(0,3,0)
+              wait(0.5)
+             local N=game:GetService("VirtualInputManager")
+             N:SendKeyEvent(true,"E",false,game)
+             wait(0.2)
+             firesignal(game:GetService("Players").LocalPlayer.PlayerGui.Ui.CenterFrame.BuyEgg.Frame.Buy3.Button.MouseButton1Click)
+       end
+   end
+end)
+
+
+spawn(function()
+    while true do wait()
+        if autoegg  then
              me.Character.HumanoidRootPart.CFrame = game:GetService("Workspace")["__SETTINGS"]["__EGG"][selectedegg].EGG.CFrame + Vector3.new(0,3,0)
               wait(0.5)
              local N=game:GetService("VirtualInputManager")
@@ -97,6 +111,11 @@ end)
 egos:NewToggle("AutoOpenEggs", "Autoopen selected egg", function(value)
     autoegg = value
 end)
+
+egos:NewToggle("Open3", "opens 3 need gamepass", function(value)
+    do3 = value
+end)
+
 
 
 
