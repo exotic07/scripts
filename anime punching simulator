@@ -1,0 +1,109 @@
+local me = game.Players.LocalPlayer
+local rebirths = {}
+local upgrades = {}
+local numberupgarde = {}
+local eggso = {}
+
+
+
+for i,v in pairs(game:GetService("Workspace")["__SETTINGS"]["__EGG"]:GetChildren()) do
+    if string.find(v.Name,"") then
+        table.insert(eggso,v.Name)
+    end
+end
+
+
+for i,v in pairs(require(game:GetService("ReplicatedStorage").Modules.Rebirths)) do
+      if v.Amount then
+          table.insert(rebirths,v.Amount)
+    end
+end
+
+
+for i,v in pairs(require(game:GetService("ReplicatedStorage").Modules.Upgrades)) do
+    if v.Info then
+        table.insert(upgrades,v.Info)
+
+    end
+end
+
+
+spawn(function()
+    while true do wait()
+        if autopuch then
+            game:GetService("ReplicatedStorage").Remotes.TappingEvent:FireServer()
+        end
+    end
+end)
+
+spawn(function()
+    while true do wait()
+        if autorebirth then
+            game:GetService("ReplicatedStorage").Remotes.ClientRemote:InvokeServer("Rebirths", selectedrebirth)
+        end
+    end
+    end)
+
+
+
+spawn(function()
+    while true do wait()
+        if autoegg then
+             me.Character.HumanoidRootPart.CFrame = game:GetService("Workspace")["__SETTINGS"]["__EGG"][selectedegg].EGG.CFrame + Vector3.new(0,3,0)
+              wait(0.5)
+             local N=game:GetService("VirtualInputManager")
+             N:SendKeyEvent(true,"E",false,game)
+             wait(0.2)
+             firesignal(game:GetService("Players").LocalPlayer.PlayerGui.Ui.CenterFrame.BuyEgg.Frame.Buy1.Button.MouseButton1Click)
+       end
+   end
+end)
+
+
+
+  local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
+  local Window = Library.CreateLib("Anime Clicker Simulator")
+
+  -- MAIN
+  local Main = Window:NewTab("Main")
+  local eggss = Window:NewTab("Eggs")
+  
+  
+  local MainSection = Main:NewSection("Main")
+  local Ribirth = Main:NewSection("Rebirths")
+  local egos = eggss:NewSection("Eggs")
+  
+  
+  MainSection:NewToggle("AutoPunch", "Make your player autopunch", function(value)
+      autopuch = value
+  end)
+ 
+
+
+  Ribirth:NewDropdown("SelectRebirth", "Select rebirth option", rebirths ,function(value)
+      selectedrebirth = value
+  end)
+
+  
+  Ribirth:NewToggle("AutoRebirth", "Make your player auto rebirth", function(value)
+      autorebirth = value
+  end)
+  
+  
+    egos:NewDropdown("SelectEgg", "Select egg option", eggso ,function(value)
+      selectedegg = value
+    end)
+
+egos:NewToggle("AutoOpenEggs", "Autoopen selected egg", function(value)
+    autoegg = value
+end)
+
+
+
+Tp:NewButton("Teleport", "Teleport to selected world", function()
+    local A_1 = "world"
+    local A_2 = selectedtp
+    local Event = game:GetService("ReplicatedStorage").Remotes.RequestTeleport
+    Event:InvokeServer(A_1, A_2)
+end)
+ 
