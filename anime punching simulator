@@ -103,7 +103,7 @@ end)
       autorebirth = value
   end)
   
-  Ribirth:NewToggle("RemoveErrorGui", "removes the error gui", function()
+  Ribirth:NewButton("RemoveErrorGui", "removes the error gui", function()
 firesignal(game:GetService("Players").eixotic007.PlayerGui.Ui.CenterFrame.Error.Ok.Button.MouseButton1Click)
 end)
   
