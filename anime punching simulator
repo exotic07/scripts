@@ -62,7 +62,7 @@ end)
 
 spawn(function()
     while true do wait()
-        if autoegg  then
+        if autoegg and do3 == false then
              me.Character.HumanoidRootPart.CFrame = game:GetService("Workspace")["__SETTINGS"]["__EGG"][selectedegg].EGG.CFrame + Vector3.new(0,3,0)
               wait(0.5)
              local N=game:GetService("VirtualInputManager")
