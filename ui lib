@@ -19,13 +19,6 @@ function getRandomString(length, includeCapitals)
 end
 
 
-local thename = woof.Name
-
-if game.CoreGui:FindFirstChild(thename) then
-   game.CoreGui[thename]:Destroy()
-end
-
-
 if game:GetService("CoreGui"):FindFirstChild("Notifaction") then
    game:GetService("CoreGui").Notifaction:Destroy();
 end
@@ -118,6 +111,10 @@ local function MakeDraggable(topbarobject, object)
 local woof = Instance.new("ScreenGui")
 woof.Name = getRandomString(7, true)
 woof.Parent = game.CoreGui
+
+if game.CoreGui:FindFirstChild(woof.Name) then
+   game.CoreGui[woof.Name]:Destroy()
+end
 
 function Mainholder:Window(hubname, gamename)
    local FirstTab = false
