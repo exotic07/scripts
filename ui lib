@@ -19,10 +19,12 @@ function getRandomString(length, includeCapitals)
 end
 
 
+local thename = woof.Name
 
-if game.CoreGui:FindFirstChild[woof.Name] then
-   game.CoreGui[woof.Name]:Destroy()
+if game.CoreGui:FindFirstChild(thename) then
+   game.CoreGui[thename]:Destroy()
 end
+
 
 if game:GetService("CoreGui"):FindFirstChild("Notifaction") then
    game:GetService("CoreGui").Notifaction:Destroy();
