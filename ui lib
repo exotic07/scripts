@@ -1,5 +1,27 @@
-if game.CoreGui:FindFirstChild("woof") then
-   game.CoreGui.woof:Destroy()
+local random = Random.new()
+local letters = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','1','2','3','4','5','6','7','8','9','10'}
+
+function getRandomLetter()
+	return letters[random:NextInteger(1,#letters)]
+end
+
+function getRandomString(length, includeCapitals)
+	local length = length or 10
+	local str = ''
+	for i=1,length do
+		local randomLetter = getRandomLetter()
+		if includeCapitals and random:NextNumber() > .5 then
+			randomLetter = string.upper(randomLetter)
+		end
+		str = str .. randomLetter
+	end
+	return str
+end
+
+
+
+if game.CoreGui:FindFirstChild(woof.Name) then
+   game.CoreGui[woof.Name]:Destroy()
 end
 
 if game:GetService("CoreGui"):FindFirstChild("Notifaction") then
@@ -92,7 +114,7 @@ local function MakeDraggable(topbarobject, object)
 
 
 local woof = Instance.new("ScreenGui")
-woof.Name = "woof"
+woof.Name = getRandomString(7, true)
 woof.Parent = game.CoreGui
 
 function Mainholder:Window(hubname, gamename)
