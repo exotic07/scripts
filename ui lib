@@ -20,7 +20,7 @@ end
 
 
 
-if game.CoreGui:FindFirstChild(woof.Name) then
+if game.CoreGui:FindFirstChild[woof.Name] then
    game.CoreGui[woof.Name]:Destroy()
 end
 
