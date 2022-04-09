@@ -112,9 +112,6 @@ local woof = Instance.new("ScreenGui")
 woof.Name = getRandomString(7, true)
 woof.Parent = game.CoreGui
 
-if game.CoreGui:FindFirstChild(woof.Name) then
-   game.CoreGui[woof.Name]:Destroy()
-end
 
 function Mainholder:Window(hubname, gamename)
    local FirstTab = false
