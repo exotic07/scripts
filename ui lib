@@ -348,7 +348,7 @@ function Mainholder:Window(hubname, gamename, discordlink, halflink)
    ScriptHub.Name = "ScriptHub"
    ScriptHub.Parent = MainFrameholder
    ScriptHub.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
-   ScriptHub.Position = UDim2.new(0.0321919285, 0, 0.526183844, 0)
+   ScriptHub.Position = UDim2.new(0.0321919285, 0, 0.312419981, 0)
    ScriptHub.Size = UDim2.new(0, 170, 0, 40)
    ScriptHub.AutoButtonColor = false
    ScriptHub.Font = Enum.Font.Gotham
