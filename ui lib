@@ -1,7 +1,6 @@
 if game.CoreGui:FindFirstChild("woof") then
-   game.CoreGui.woof:remove()
+   game.CoreGui.woof:Destroy()
 end
-
 
 if game:GetService("CoreGui"):FindFirstChild("Notifaction") then
    game:GetService("CoreGui").Notifaction:Destroy();
@@ -33,6 +32,7 @@ local TweenService = game:GetService("TweenService")
 local RunService = game:GetService("RunService")
 local LocalPlayer = game:GetService("Players").LocalPlayer
 local Mouse = LocalPlayer:GetMouse()
+getgenv().checklists = {}
 
 local function MakeDraggable(topbarobject, object)
     local Dragging = nil
@@ -96,8 +96,7 @@ local woof = Instance.new("ScreenGui")
 woof.Name = "woof"
 woof.Parent = game.CoreGui
 
-
-function Mainholder:Window(hubname, gamename)
+function Mainholder:Window(hubname, gamename, discordlink, halflink)
    local FirstTab = false
 
    local MainFrame = Instance.new("Frame")
@@ -387,7 +386,7 @@ function Mainholder:Window(hubname, gamename)
    end)
 
    Discord.MouseButton1Click:Connect(function()
-      setclipboard("https://discord.gg/9RHAqwHKH2")
+      setclipboard(discordlink)
             local req = (syn and syn.request) or (http and http.request) or http_request
             if req then
                 req({
@@ -400,7 +399,7 @@ function Mainholder:Window(hubname, gamename)
                     Body = game:GetService('HttpService'):JSONEncode({
                         cmd = 'INVITE_BROWSER',
                         nonce = game:GetService('HttpService'):GenerateGUID(false),
-                        args = {code = '4jyYQcXupC'}
+                        args = {code = "4jyYQcXupC"}
                     })
                 })
             end
@@ -1197,7 +1196,7 @@ function ContainerItems:Label(text)
    Label.Size = UDim2.new(0, 405, 0, 40)
    Label.AutoButtonColor = false
    Label.Font = Enum.Font.Gotham
-   Label.Text = "Hello L1ZOT!"
+   Label.Text = text
    Label.TextColor3 = Color3.fromRGB(255, 255, 255)
    Label.TextSize = 17.000
    
@@ -1398,7 +1397,7 @@ function ContainerItems:Dropdown(text, list, callback)
    for i, v in next, list do
       ItemCount = ItemCount + 1
 
-         FrameSize = 100
+         FrameSize = 300
 
       local Item = Instance.new("TextButton")
       local ItemCorner = Instance.new("UICorner")
@@ -1473,7 +1472,7 @@ function ContainerItems:Dropdown(text, list, callback)
 
    function dropfunc:Clear()
       Title.Text = text
-      FrameSize = 0
+      --FrameSize = 0
       ItemCount = 0
 
       for i,v in next, DropdownHolder:GetChildren() do
@@ -1511,7 +1510,7 @@ function ContainerItems:Dropdown(text, list, callback)
    function dropfunc:Add(toadd)
       ItemCount = ItemCount + 1
 
-         FrameSize = 100
+         FrameSize = 300
 
       local Item = Instance.new("TextButton")
       local ItemCorner = Instance.new("UICorner")
@@ -1760,17 +1759,14 @@ function ContainerItems:Toggle(title, Default, callback)
    Container.CanvasSize = UDim2.new(0, 0, 0, ContainerLayout.AbsoluteContentSize.Y)
 end
 
-local Manahub = {
-   Flags = {}
-}
 
-function ContainerItems:Checklist(text,list,callback)
+function ContainerItems:Checklist(text,glob,list,callback)
    local dropfunc = {}
    local DropToggled = false
    local FrameSize = 0
    local ItemCount = 0
    local info_table = {}
-   callback = callback or function() end 
+   callback = callback or function() end -- this is some stuff lead made some cool stuff
 
 
    local Checklist = Instance.new("TextButton")
@@ -1798,7 +1794,7 @@ function ContainerItems:Checklist(text,list,callback)
    Checklist.TextColor3 = Color3.fromRGB(255, 255, 255)
    Checklist.TextSize = 15.000
 
-   ChecklistTitle.Name = text .. "element"
+   ChecklistTitle.Name = "ChecklistTitle"
    ChecklistTitle.Parent = Checklist
    ChecklistTitle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
    ChecklistTitle.BackgroundTransparency = 1.000
@@ -1933,24 +1929,16 @@ function ContainerItems:Checklist(text,list,callback)
          DropToggled = not DropToggled
       end
    )
+   -- test time
+   checklists[glob] = {Value = {}, Toggled = false, Options = list}
+   local OptionPreset = {}
 
-   local dropdownwtffff,OptionPreset = {Value = {}, Toggled = false, Options = list}
-   local function ToggleDrop()
-      dropdownwtffff.Toggled = not dropdownwtffff.Toggled
-  end 
 
-  ToggleDrop() 
---[[
-   function dropdownwtffff:Set(val)
-      dropdownwtffff.Value = val
-      ChecklistTitle.Text = text .. " - " .. table.concat(dropdownwtffff.Value, ", ")
-      return callback(dropdownwtffff.Value)
-   end
-   ]]
+   
    for i, v in next, list do
       --ItemCount = ItemCount + 1
 
-         FrameSize = 100
+         FrameSize = 300
 
       local ChecklistItem = Instance.new("TextButton")
       local ChecklistItemCorner = Instance.new("UICorner")
@@ -1998,21 +1986,20 @@ function ContainerItems:Checklist(text,list,callback)
       )
 
       ChecklistHolder.CanvasSize = UDim2.new(0, 0, 0, ChecklistItemLayout.AbsoluteContentSize.Y + 15)
+
       
-      --Dropdown.Toggled = not Dropdown.Toggled
-
       ChecklistItem.MouseButton1Click:Connect(function()
-         if table.find(dropdownwtffff.Value, v) then				
-        table.remove(dropdownwtffff.Value, table.find(dropdownwtffff.Value, v))
-        ChecklistTitle.Text = text .. " - " .. table.concat(dropdownwtffff.Value, ", ")
-
+      if table.find(checklists[glob].Value, v) then
+        table.remove(checklists[glob].Value, table.find(checklists[glob].Value, v))
+        ChecklistTitle.Text = text .. " - " .. table.concat(checklists[glob].Value, ", ")
+        callback(checklists[glob].Value)
      else
-        table.insert(dropdownwtffff.Value, v)
-        ChecklistTitle.Text = text .. " - " .. table.concat(dropdownwtffff.Value, ", ")
-      end
+        table.insert(checklists[glob].Value, v)
+        ChecklistTitle.Text = text .. " - " .. table.concat(checklists[glob].Value, ", ")
+        callback(checklists[glob].Value)
+     end
    end)
 
-   
       local onlol = false
       ChecklistItem.MouseButton1Click:Connect(function()
             
@@ -2032,12 +2019,12 @@ function ContainerItems:Checklist(text,list,callback)
             ):Play()
             
             onlol = true
-
+--[[
             table.foreach(list, function(key, value)
                info_table[ChecklistItem.Text] = onlol
             end)
 
-            callback(info_table)
+            callback(info_table)]]
          else
             TweenService:Create(ChecklistItemCheck,TweenInfo.new(.3, Enum.EasingStyle.Quad),{ImageTransparency = 1}):Play()
             repeat wait() until ChecklistItemCheck.ImageTransparency == 1
@@ -2045,13 +2032,14 @@ function ContainerItems:Checklist(text,list,callback)
             TweenService:Create(ChecklistItemCheck,TweenInfo.new(.3, Enum.EasingStyle.Quad),{ImageTransparency = 0}):Play()
             onlol = false
 
+            --[[
             table.foreach(list, function(key, value)
                info_table[ChecklistItem.Text] = onlol
             end)
 
-            callback(info_table)
+            callback(info_table)]]
 
-            callback(Dropdown.Value)
+            --callback(checklists.Value)
          end
             Container.CanvasSize = UDim2.new(0, 0, 0, ContainerLayout.AbsoluteContentSize.Y)
          end)
@@ -2097,7 +2085,7 @@ function ContainerItems:Checklist(text,list,callback)
    function dropfunc:Add(toadd)
       ItemCount = ItemCount + 1
 
-         FrameSize = 100
+         FrameSize = 300
 
       local ChecklistItem = Instance.new("TextButton")
       local ChecklistItemCorner = Instance.new("UICorner")
@@ -2144,6 +2132,18 @@ function ContainerItems:Checklist(text,list,callback)
          end
       )
 
+      ChecklistItem.MouseButton1Click:Connect(function()
+         if table.find(checklists[glob].Value, v) then
+           table.remove(checklists[glob].Value, table.find(checklists[glob].Value, v))
+           ChecklistTitle.Text = text .. " - " .. table.concat(checklists[glob].Value, ", ")
+           callback(checklists[glob].Value)
+        else
+           table.insert(checklists[glob].Value, v)
+           ChecklistTitle.Text = text .. " - " .. table.concat(checklists[glob].Value, ", ")
+           callback(checklists[glob].Value)
+        end
+      end)
+
       local onlol = false
       ChecklistItem.MouseButton1Click:Connect(
          function()
@@ -2183,6 +2183,7 @@ function ContainerItems:Checklist(text,list,callback)
       )
 
       ChecklistHolder.CanvasSize = UDim2.new(0, 0, 0, ChecklistItemLayout.AbsoluteContentSize.Y + 15)
+      return checklists[glob]
    end
    return dropfunc
 end
