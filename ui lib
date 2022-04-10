@@ -343,70 +343,7 @@ function Mainholder:Window(hubname, gamename, discordlink, halflink)
    OpenCloseCorner.CornerRadius = UDim.new(0, 6)
    OpenCloseCorner.Name = "OpenCloseCorner"
    OpenCloseCorner.Parent = OpenClose
-   
-   Discord.Name = "Discord"
-   Discord.Parent = MainFrameholder
-   Discord.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
-   Discord.Position = UDim2.new(0.0321919285, 0, 0.312419981, 0)
-   Discord.Size = UDim2.new(0, 170, 0, 40)
-   Discord.AutoButtonColor = false
-   Discord.Font = Enum.Font.Gotham
-   Discord.Text = "Discord"
-   Discord.TextColor3 = Color3.fromRGB(255, 255, 255)
-   Discord.TextSize = 20.000
 
-   Discord.MouseEnter:Connect(function()
-      TweenService:Create(
-         Discord,
-         TweenInfo.new(.3, Enum.EasingStyle.Quad),
-         {BackgroundColor3 = Color3.fromRGB(45, 45, 45)}
-      ):Play()
-   end)
-
-   Discord.MouseLeave:Connect(function()
-      TweenService:Create(
-         Discord,
-         TweenInfo.new(.3, Enum.EasingStyle.Quad),
-         {BackgroundColor3 = Color3.fromRGB(35, 35, 35)}
-      ):Play()
-   end)
-
-   Discord.MouseButton1Click:Connect(function()
-      Discord.TextSize = 0
-      TweenService:Create(
-         Discord,
-         TweenInfo.new(.3, Enum.EasingStyle.Quad),
-         {TextSize = 25.000}
-      ):Play()
-      TweenService:Create(
-         Discord,
-         TweenInfo.new(.3, Enum.EasingStyle.Quad),
-         {TextSize = 20.000}
-      ):Play()
-   end)
-
-   Discord.MouseButton1Click:Connect(function()
-      local req = (syn and syn.request) or (http and http.request) or http_request
-      if req then
-          req({
-              Url = 'http://127.0.0.1:6463/rpc?v=1',
-              Method = 'POST',
-              Headers = {
-                  ['Content-Type'] = 'application/json',
-                  Origin = 'https://discord.com'
-              },
-              Body = game:GetService('HttpService'):JSONEncode({
-                  cmd = 'INVITE_BROWSER',
-                  nonce = game:GetService('HttpService'):GenerateGUID(false),
-                  args = {code = 'jTaTZsxaCe'}
-              })
-          })
-      end
-   end)
-   
-   DiscordCorner.CornerRadius = UDim.new(0, 6)
-   DiscordCorner.Name = "DiscordCorner"
-   DiscordCorner.Parent = Discord
    
    ScriptHub.Name = "ScriptHub"
    ScriptHub.Parent = MainFrameholder
